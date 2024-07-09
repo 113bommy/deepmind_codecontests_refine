@@ -1,0 +1,1 @@
+input();print(eval(input().replace(' ','-1+'))-1)

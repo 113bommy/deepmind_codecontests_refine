@@ -1,0 +1,32 @@
+a=int(input())
+z=list(map(int,input().split()))
+l=0
+ans=[]
+r=len(z)-1
+temp=[0]
+while(l<=r):
+    te=min(z[l],z[r])
+    if(te>temp[-1]):
+        if(z[l]==te):
+            ans.append('L')
+            l+=1
+        else:
+            ans.append('R')
+            r-=1
+        temp.append(te)
+    elif(max(z[l],z[r])>temp[-1]):
+        te=max(z[l],z[r])
+        if(te>temp[-1]):
+            
+            if(z[l]==te):
+                ans.append('L')
+                l+=1
+            else:
+                ans.append('R')
+                r-=1
+        temp.append(te)
+    else:
+        break;
+print(len(ans))
+
+print(''.join(map(str,ans)))
