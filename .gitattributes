@@ -1,0 +1,6 @@
+python_zip_file/python_train_gold_filtered.zip filter=lfs diff=lfs merge=lfs -text
+python_zip_file/python_valid_gold_filtered.zip filter=lfs diff=lfs merge=lfs -text
+cpp_zip_file/cpp_test_gold_filtered.zip filter=lfs diff=lfs merge=lfs -text
+cpp_zip_file/cpp_train_gold_filtered.zip filter=lfs diff=lfs merge=lfs -text
+cpp_zip_file/cpp_valid_gold_filtered.zip filter=lfs diff=lfs merge=lfs -text
+python_zip_file/python_test_gold_filtered.zip filter=lfs diff=lfs merge=lfs -text
