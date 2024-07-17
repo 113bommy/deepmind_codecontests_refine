@@ -177,10 +177,10 @@ print(f'# Gold filtered Code pair of valid_check_result {count_code(gold_filter_
 print(f'# Gold filtered Code pair of train_check_result {count_code(gold_filter_train)}')
 
 with open(f'./cpp_data/cpp_test_gold_filtered.json', 'w') as f:
-    json.dump(gold_filter_test, f, indent=None)
+    json.dump(gold_filter_test, f, indent=4)
 
 with open(f'./cpp_data/cpp_valid_gold_filtered.json', 'w') as f:
-    json.dump(gold_filter_valid, f, indent=None)
+    json.dump(gold_filter_valid, f, indent=4)
 
 with open(f'./cpp_data/cpp_train_gold_filtered.json', 'w') as f:
-    json.dump(gold_filter_train, f, indent=None)
+    json.dump(gold_filter_train, f, indent=4)

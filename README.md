@@ -14,24 +14,71 @@ To create filtered datasets, follow the steps below.
 bash make_folder.sh
 python -O dataset_curation.py
 ```
-### Test case execution - Cpp correct solution
+### Cpp correct solution execution
 ```bash
-python -O cpp_test_filter.py
-python -O cpp_valid_filter.py
-python -O cpp_train_filter.py
+python -O cpp_test_gold_filter.py
+python -O cpp_valid_gold_filter.py
+python -O cpp_train_gold_filter.py
 ```
-### Test case execution - Python3 correct solution
+### Python3 correct solution execution
 ```bash
-python -O python_test_filter.py
-python -O python_valid_filter.py
-python -O python_train_filter.py
+python -O python_test_gold_filter.py
+python -O python_valid_gold_filter.py
+python -O python_train_gold_filter.py
 ```
-### Generating filteres Test case data - Correct solution
+### Generating filtered Test case data w.r.t. Correct solution
 ```bash
-python -O cpp_exclude_test_case.py
-python -O python_exclude_test_case.py
+python -O cpp_gold_filter.py
+python -O python_gold_filter.py
+```
+### Cpp gold filter result
+```python
+# Original test case of test_check_result 2705635
+# Original test case of valid_check_result 2119625
+# Original test case of train_check_result 547494868
+# Original Code pair of test_check_result 1664
+# Original Code pair of valid_check_result 1406
+# Original Code pair of train_check_result 146715
+
+# Gold filtered test case of test_check_result 2399894
+# Gold filtered test case of valid_check_result 1890493
+# Gold filtered test case of train_check_result 124255504
+# Gold filtered Code pair of test_check_result 1400
+# Gold filtered Code pair of valid_check_result 1137
+# Gold filtered Code pair of train_check_result 101083
+```
+### Python gold filter result
+```python
+# Original test case of test_check_result 2705635
+# Original test case of valid_check_result 2119625
+# Original test case of train_check_result 547494868
+# Original Code pair of test_check_result 972
+# Original Code pair of valid_check_result 876
+# Original Code pair of train_check_result 280229
+
+# Gold filtered test case of test_check_result 1273884
+# Gold filtered test case of valid_check_result 1167854
+# Gold filtered test case of train_check_result 236025216
+# Gold filtered Code pair of test_check_result 884
+# Gold filtered Code pair of valid_check_result 805
+# Gold filtered Code pair of train_check_result 236569
+```
+### Cpp incorrect solution execution
+```bash
+python -O cpp_test_source_filter.py
+python -O cpp_valid_source_filter.py
+python -O cpp_train_source_filter.py
+```
+### Python3 incorrect solution execution
+```bash
+python -O python_test_source_filter.py
+python -O python_valid_source_filter.py
+python -O python_train_source_filter.py
+```
+### Generating filtered Test case data w.r.t. Incorrect solution
+```bash
+python -O cpp_source_filter.py
+python -O python_source_filter.py
 ```
 
-Final data is saved in cpp_data and python_data folder
-
-아직 Correct solution에 대해서만 진행했습니다. 추후 Incorrect solution에 대해서도 필터링 진행할 예정입니다.
+Final data is saved in *cpp_data* and *python_data* folder

@@ -1,1 +1,0 @@
-i=lambda:map(int,input().split());N,T=i();print(min([c for c,t in[i()for _ in[0]*N]if t<=T],default='TLE'))

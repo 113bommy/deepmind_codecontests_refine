@@ -1,1 +1,0 @@
-from itertools import*;from fractions import*;u=accumulate;g=gcd;n,a=open(0);*a,=map(int,a.split());a=[0]+a+[0];print(max(starmap(g,zip(u(a,g),list(u(a[:1:-1],g))[::-1]))))
