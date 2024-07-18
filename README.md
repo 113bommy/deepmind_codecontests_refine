@@ -10,6 +10,7 @@ To use this dataset more efficiently and precisely, we need to refine the datase
 - Filtering out incorrect code that passes all test cases.
 - Choosing test cases that all the filtered correct code passes.
 - Choosing test cases where the success rate of incorrect code is below 70%.
+
 To create filtered datasets, follow the steps below.
 
 ## Dataset Curation
