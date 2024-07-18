@@ -3,25 +3,6 @@ import json
 import os
 import numpy as np
 
-def find_test_case_length(dic):
-    len_dict = {}
-    for key in dic.keys():
-        len_public_test_case = len(dic[key]['test_case']['public']['input'])
-        len_private_test_case = len(dic[key]['test_case']['private']['input'])
-        len_generated_test_case = len(dic[key]['test_case']['generated']['input'])
-        len_dict[key] = [len_public_test_case, len_private_test_case, len_generated_test_case]
-
-    return len_dict
-
-def concat_test_case(dic):
-    for key in dic.keys():
-        dic[key]['test_case'] = {
-            'input':[*dic[key]['test_case']['public']['input'], *dic[key]['test_case']['private']['input'], *dic[key]['test_case']['generated']['input']],
-            'output':[*dic[key]['test_case']['public']['output'], *dic[key]['test_case']['private']['output'], *dic[key]['test_case']['generated']['output']]
-        }
-
-    return dic
-
 def make_numpy(result_json):
     result = result_json['results']
     code_index_list = []
@@ -35,22 +16,16 @@ def make_numpy(result_json):
 
 # Selecting appropriate correct codes and test cases
 
-def refine_data(code_index_list, np_test_result, len_list):
-    len_public = len_list[0]
-    len_private = len_list[1]
-
-    test_length = len_public + len_private
-
-    if (len(code_index_list) != np_test_result.shape[0]):
-        adsfasf 
-    non_zero_indices = np.where(np.all(np_test_result[:, range(test_length)] != 0, axis=1))[0]
-    source_code_index = [code_index_list[source_index] for source_index in non_zero_indices]
-    np_source_code = np_test_result[non_zero_indices]
-    test_case_index = np.where(np.all(np_source_code != 0, axis=0))[0]
+def refine_data(code_index_list, np_test_result):
+    any_zero_indices = np.where(np.any(np_test_result == 0, axis=1))[0]
+    source_code_index = [code_index_list[source_index] for source_index in any_zero_indices]
+    np_source_code = np_test_result[any_zero_indices]
+    threshold = 0.7 * np_source_code.shape[0]
+    test_case_index = np.where(np.sum(np_source_code == 1, axis=0) <= threshold)[0]
 
     return test_case_index, source_code_index
 
-def check_result(result_path, len_dict):
+def check_result(result_path):
     final_test_case = {}
     
     for index, check_file in tqdm(enumerate(os.listdir(result_path)), leave = True):
@@ -60,7 +35,7 @@ def check_result(result_path, len_dict):
             result_json = json.load(f)
 
         code_index_list, np_test_result = make_numpy(result_json)
-        test_case_index, source_code_index = refine_data(code_index_list, np_test_result, len_dict[pid])
+        test_case_index, source_code_index = refine_data(code_index_list, np_test_result)
 
         final_test_case[pid] = [test_case_index.tolist(), source_code_index]
 
@@ -144,25 +119,17 @@ with open(cpp_valid_gold_filter_path, 'r') as f:
 with open(cpp_train_gold_filter_path, 'r') as f:
     cpp_train = json.load(f)
 
-len_cpp_test = find_test_case_length(cpp_test)
-len_cpp_valid = find_test_case_length(cpp_valid)
-len_cpp_train = find_test_case_length(cpp_train)
+print(f'# Gold filtered Test case of test_check_result {count_test_case(cpp_test)}')
+print(f'# Gold filtered Test case of valid_check_result {count_test_case(cpp_valid)}')
+print(f'# Gold filtered Test case of train_check_result {count_test_case(cpp_train)}')
 
-# cpp_test = concat_test_case(cpp_test)
-# cpp_valid = concat_test_case(cpp_valid)
-# cpp_train = concat_test_case(cpp_train)
+print(f'# Gold filtered Code pair of test_check_result {count_code(cpp_test)}')
+print(f'# Gold filtered Code pair of valid_check_result {count_code(cpp_valid)}')
+print(f'# Gold filtered Code pair of train_check_result {count_code(cpp_train)}')
 
-test_check_result = check_result(cpp_test_result_path, len_cpp_test)
-valid_check_result = check_result(cpp_valid_result_path, len_cpp_valid)
-train_check_result = check_result(cpp_train_result_path, len_cpp_train)
-
-print(f'# Original test case of test_check_result {count_test_case(cpp_test)}')
-print(f'# Original test case of valid_check_result {count_test_case(cpp_valid)}')
-print(f'# Original test case of train_check_result {count_test_case(cpp_train)}')
-
-print(f'# Original Code pair of test_check_result {count_code(cpp_test)}')
-print(f'# Original Code pair of valid_check_result {count_code(cpp_valid)}')
-print(f'# Original Code pair of train_check_result {count_code(cpp_train)}')
+test_check_result = check_result(cpp_test_result_path)
+valid_check_result = check_result(cpp_valid_result_path)
+train_check_result = check_result(cpp_train_result_path)
 
 source_filter_test = data_filter(test_check_result, cpp_test)
 source_filter_valid = data_filter(valid_check_result, cpp_valid)
@@ -176,11 +143,11 @@ print(f'# source filtered Code pair of test_check_result {count_code(source_filt
 print(f'# source filtered Code pair of valid_check_result {count_code(source_filter_valid)}')
 print(f'# source filtered Code pair of train_check_result {count_code(source_filter_train)}')
 
-with open(f'./cpp_data/cpp_test_source_filtered.json', 'w') as f:
+with open(f'./cpp_data/cpp_test_final_filtered.json', 'w') as f:
     json.dump(source_filter_test, f, indent=4)
 
-with open(f'./cpp_data/cpp_valid_source_filtered.json', 'w') as f:
+with open(f'./cpp_data/cpp_valid_final_filtered.json', 'w') as f:
     json.dump(source_filter_valid, f, indent=4)
 
-with open(f'./cpp_data/cpp_train_source_filtered.json', 'w') as f:
+with open(f'./cpp_data/cpp_train_final_filtered.json', 'w') as f:
     json.dump(source_filter_train, f, indent=4)
