@@ -89,8 +89,7 @@ def data_filter(final_test_case, data_dict):
 def count_test_case(cpp_dict):
     count = 0
     for key, value in cpp_dict.items():
-        for single_input in value['test_case']['input']:
-            count += len(single_input)
+        count += len(value['test_case']['input'])
     return count
 
 def count_code(cpp_dict):
