@@ -17,7 +17,14 @@ To create filtered datasets, follow the steps below.
 ## Dataset Curation
 ```bash
 bash make_folder.sh
-python -O dataset_curation.py
+
+python -O dataset_curation.py --language python --data_split valid
+python -O dataset_curation.py --language python --data_split test
+python -O dataset_curation.py --language python --data_split train
+
+python -O dataset_curation.py --language cpp --data_split valid
+python -O dataset_curation.py --language cpp --data_split test
+python -O dataset_curation.py --language cpp --data_split train
 ```
 ### Cpp correct solution execution
 ```bash
